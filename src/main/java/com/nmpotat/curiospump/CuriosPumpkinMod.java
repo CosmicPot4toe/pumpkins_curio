@@ -20,9 +20,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class CuriosPumpkinMod
 {
     public CuriosPumpkinMod() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        modEventBus.addListener(this::commonSetup); // Register the commonSetup method for modloading
+        CPumpCommon.init();
+        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        eventBus.addListener(this::setup); // Register the commonSetup method for modloading
 
 				// CPumpConst.BLOCKS.register(modEventBus); //register deferred registers on the event bus so things actually happen
 				// CPumpConst.ITEMS.register(modEventBus);
@@ -37,7 +37,7 @@ public class CuriosPumpkinMod
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
-    private void commonSetup(final FMLCommonSetupEvent event) {
+    private void setup(final FMLCommonSetupEvent event) {
         // Some common setup code
         CPumpConst.LOG.info("HELLO FROM COMMON SETUP");
 
@@ -49,12 +49,6 @@ public class CuriosPumpkinMod
         Config.items.forEach((item) -> CPumpConst.LOG.info("ITEM >> {}", item.toString()));
     }
 
-    // Add the example block item to the building blocks tab
-    /*private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
-            event.accept(EXAMPLE_BLOCK_ITEM);
-    }*/
-
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     /*@SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
@@ -62,15 +56,11 @@ public class CuriosPumpkinMod
     }*/
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = CPumpConst.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    /*@Mod.EventBusSubscriber(modid = CPumpConst.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            // Some client setup code
-            // CPumpConst.LOG.info("HELLO FROM CLIENT SETUP");
-            // CPumpConst.LOG.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+        public static void onClientSetup(FMLClientSetupEvent event) {
         }
-    }
+    }*/
 }
